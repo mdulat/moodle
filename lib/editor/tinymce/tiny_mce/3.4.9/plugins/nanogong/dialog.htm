@@ -8,9 +8,15 @@
 <body>
 
 <form onsubmit="NanogongDialog.insert();return false;" action="#">
-	<p>Here is a example dialog.</p>
-	<p>Selected text: <input id="someval" name="someval" type="text" class="text" /></p>
-	<p>Custom arg: <input id="somearg" name="somearg" type="text" class="text" /></p>
+	<h1>Insert Sound</h1>
+	<br />
+	<fieldset>
+	    <legend>Sound Recorder</legend>
+	    <applet id="nanogong" archive="nanogong.jar" code="gong.NanoGong" width="180" height="40">
+        </applet>
+	</fieldset>
+	
+	<p>Caption: <input name="caption" type="text" id="caption" /></p>
 
 	<div class="mceActionPanel">
 		<input type="button" id="insert" name="insert" value="{#insert}" onclick="NanogongDialog.insert();" />
