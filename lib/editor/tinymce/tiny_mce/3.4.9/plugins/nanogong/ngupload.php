@@ -37,7 +37,8 @@ require_once("$CFG->libdir/filelib.php");
 //$maxbytes = optional_param('maxbytes', 0, PARAM_INT);
 $saveas_filename = time();
 $maxbytes = -1;
-$usercontext = get_context_instance(CONTEXT_USER, $USER->id);
+$usercontext = context_user::instance($USER->id);
+$coursecontext = context_course::instance($COURSE->id);
 
 $record = new object;
 $record->userid = $USER->id;
@@ -50,7 +51,7 @@ $record->itemid   = 0;
 //$record->author   = optional_param('author', '', PARAM_TEXT);
 
 
-$elname = 'repo_upload_file';
+$elname = 'voicefile';
 
 $fs = get_file_storage();
 $sm = get_string_manager();
@@ -94,9 +95,14 @@ if ($stored_file = $fs->create_file_from_pathname($record, $_FILES[$elname]['tmp
     
     $draftitemid = file_get_submitted_draft_itemid($elname);
     
-    $messagetext = file_save_draft_area_files($draftitemid, $record->contextid, 'user', 'sound', $stored_file->get_itemid(), array('subdirs' => 0, 'maxbytes' => $maxbytes, 'maxfiles' => 1));
+   // $messagetext = file_save_draft_area_files($draftitemid, $coursecontext->id, 'mod_resource', 'content', $stored_file->get_itemid(), array('subdirs' => 0, 'maxbytes' => $maxbytes, 'maxfiles' => 50));
     
-    print moodle_url::make_pluginfile_url($record->contextid, 'user', 'sound', $stored_file->get_itemid(), $stored_file->get_filepath(), $stored_file->get_filename())->out();
+   // print moodle_url::make_pluginfile_url($coursecontext->id, 'mod_resource', 'content', $stored_file->get_itemid(), $stored_file->get_filepath(), $stored_file->get_filename())->out();
+   
+   $messagetext = file_save_draft_area_files($draftitemid, 1, 'mod_resource', 'content', 316, array('subdirs' => 0, 'maxbytes' => $maxbytes, 'maxfiles' => 50));
+    
+   print moodle_url::make_pluginfile_url(1, 'mod_resource', 'content', 316, $stored_file->get_filepath(), $stored_file->get_filename())->out();
+   
     //print moodle_url::make_draftfile_url($stored_file->get_itemid(), $stored_file->get_filepath(), $stored_file->get_filename())->out();
 } else {
     print '';
