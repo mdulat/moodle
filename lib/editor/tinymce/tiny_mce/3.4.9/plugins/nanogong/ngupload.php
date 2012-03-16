@@ -91,7 +91,13 @@ if (($maxbytes!==-1) && (filesize($_FILES[$elname]['tmp_name']) > $maxbytes)) {
 $fs->delete_area_files($record->contextid, 'user', 'draft', $record->itemid);
 
 if ($stored_file = $fs->create_file_from_pathname($record, $_FILES[$elname]['tmp_name'])) {
-    print moodle_url::make_draftfile_url($stored_file->get_itemid(), $stored_file->get_filepath(), $stored_file->get_filename())->out();
+    
+    $draftitemid = file_get_submitted_draft_itemid($elname);
+    
+    $messagetext = file_save_draft_area_files($draftitemid, $record->contextid, 'user', 'sound', $stored_file->get_itemid(), array('subdirs' => 0, 'maxbytes' => $maxbytes, 'maxfiles' => 1));
+    
+    print moodle_url::make_pluginfile_url($record->contextid, 'user', 'sound', $stored_file->get_itemid(), $stored_file->get_filepath(), $stored_file->get_filename())->out();
+    //print moodle_url::make_draftfile_url($stored_file->get_itemid(), $stored_file->get_filepath(), $stored_file->get_filename())->out();
 } else {
     print '';
 }
