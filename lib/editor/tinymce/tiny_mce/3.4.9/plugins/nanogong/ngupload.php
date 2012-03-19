@@ -1,17 +1,13 @@
 <?php
 
 /**
- * This file is part of the Dataform module for Moodle - http://moodle.org/.
+ * This file is part of the Nanogong plugin for TinyMCE editor for Moodle - http://moodle.org/.
  *
- * @package mod-dataform
- * @subpackage field-nanogong
- * @copyright 2011 Itamar Tzadok
+ * @package lib-editor
+ * @subpackage plugin-nanogong
+ * @copyright 2011 Itamar Tzadok (code from Nanogong Dataform Field)
+ * @copyright 2011 Margaret Dulat
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- *
- * The Dataform has been developed as an enhanced counterpart
- * of Moodle's Database activity module (1.9.11+ (20110323)).
- * To the extent that Dataform code corresponds to Database code,
- * certain copyrights on Database module may obtain.
  *
  * Moodle is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -30,15 +26,15 @@
 require_once("../../../../../../../config.php");
 require_once("$CFG->libdir/filelib.php");
 
-//$elname = required_param('elname', PARAM_NOTAGS);
-//$userid = required_param('userid',PARAM_INT);
-//$itemid = required_param('itemid', PARAM_INT);
-//$saveas_filename = optional_param('title', '', PARAM_FILE);
-//$maxbytes = optional_param('maxbytes', 0, PARAM_INT);
+$elname = required_param('elname', PARAM_TEXT);
+//$itemid = required_param('itemid', PARAM_TEXT);
+// can't this be used to determine draftitemid with:
+// $draftitemid = file_get_submitted_draft_itemid($itemid);
+// ??
+
 $saveas_filename = time();
 $maxbytes = -1;
 $usercontext = context_user::instance($USER->id);
-$coursecontext = context_course::instance($COURSE->id);
 
 $record = new object;
 $record->userid = $USER->id;
@@ -46,16 +42,9 @@ $record->contextid = $usercontext->id;
 $record->filearea = 'draft';
 $record->component = 'user';
 $record->filepath = '/';
-$record->itemid   = 0;
-//$record->license  = optional_param('license', $CFG->sitedefaultlicense, PARAM_TEXT);
-//$record->author   = optional_param('author', '', PARAM_TEXT);
-
-
-$elname = 'voicefile';
+$record->itemid = 0;
 
 $fs = get_file_storage();
-$sm = get_string_manager();
-
 
 if (!isset($_FILES[$elname])) {
     throw new moodle_exception('nofile');
@@ -89,21 +78,12 @@ if (($maxbytes!==-1) && (filesize($_FILES[$elname]['tmp_name']) > $maxbytes)) {
 }
 
 // clean the file area from any file before creating the new one
-$fs->delete_area_files($record->contextid, 'user', 'draft', $record->itemid);
+//$fs->delete_area_files($record->contextid, 'user', 'draft', $record->itemid);
 
 if ($stored_file = $fs->create_file_from_pathname($record, $_FILES[$elname]['tmp_name'])) {
-    
     $draftitemid = file_get_submitted_draft_itemid($elname);
-    
-   // $messagetext = file_save_draft_area_files($draftitemid, $coursecontext->id, 'mod_resource', 'content', $stored_file->get_itemid(), array('subdirs' => 0, 'maxbytes' => $maxbytes, 'maxfiles' => 50));
-    
-   // print moodle_url::make_pluginfile_url($coursecontext->id, 'mod_resource', 'content', $stored_file->get_itemid(), $stored_file->get_filepath(), $stored_file->get_filename())->out();
    
-   $messagetext = file_save_draft_area_files($draftitemid, 1, 'mod_resource', 'content', 316, array('subdirs' => 0, 'maxbytes' => $maxbytes, 'maxfiles' => 50));
-    
-   print moodle_url::make_pluginfile_url(1, 'mod_resource', 'content', 316, $stored_file->get_filepath(), $stored_file->get_filename())->out();
-   
-    //print moodle_url::make_draftfile_url($stored_file->get_itemid(), $stored_file->get_filepath(), $stored_file->get_filename())->out();
+    print moodle_url::make_draftfile_url($draftitemid, $stored_file->get_filepath(), $stored_file->get_filename())->out();
 } else {
     print '';
 }
