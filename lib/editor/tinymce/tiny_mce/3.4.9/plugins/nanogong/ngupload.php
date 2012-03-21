@@ -27,9 +27,9 @@ require_once("../../../../../../../config.php");
 require_once("$CFG->libdir/filelib.php");
 
 $elname = required_param('elname', PARAM_TEXT);
-//$itemid = required_param('itemid', PARAM_TEXT);
+$itemid = required_param('itemid', PARAM_INT);
 // can't this be used to determine draftitemid with:
-// $draftitemid = file_get_submitted_draft_itemid($itemid);
+//$draftitemid = file_get_submitted_draft_itemid($itemid);
 // ??
 
 $saveas_filename = time();
@@ -42,7 +42,7 @@ $record->contextid = $usercontext->id;
 $record->filearea = 'draft';
 $record->component = 'user';
 $record->filepath = '/';
-$record->itemid = 0;
+$record->itemid = $itemid;
 
 $fs = get_file_storage();
 
@@ -83,7 +83,7 @@ if (($maxbytes!==-1) && (filesize($_FILES[$elname]['tmp_name']) > $maxbytes)) {
 if ($stored_file = $fs->create_file_from_pathname($record, $_FILES[$elname]['tmp_name'])) {
     $draftitemid = file_get_submitted_draft_itemid($elname);
    
-    print moodle_url::make_draftfile_url($draftitemid, $stored_file->get_filepath(), $stored_file->get_filename())->out();
+    print moodle_url::make_draftfile_url($itemid, $stored_file->get_filepath(), $stored_file->get_filename())->out();
 } else {
     print '';
 }

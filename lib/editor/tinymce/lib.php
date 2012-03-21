@@ -180,6 +180,9 @@ class tinymce_texteditor extends texteditor {
         if (!empty($options['required'])) {
             $params['init_instance_callback'] = 'M.editor_tinymce.onblur_event';
         }
+        
+        // add callback function for nanogong plugin
+        $params['nanogong_callback'] = "M.editor_tinymce.nanogong";
         return $params;
     }
 }
