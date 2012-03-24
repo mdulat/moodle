@@ -15,17 +15,16 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * TinyMCE text editor integration version file.
+ * Version details
  *
- * @package    editor
- * @subpackage tinymce
- * @copyright  2009 Petr Skoda (http://skodak.org)
+ * @package    filter
+ * @subpackage nanogong
+ * @copyright  2012 Margaret Dulat
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->version   = 2012032200;        // The current plugin version (Date: YYYYMMDDXX)
-$plugin->requires  = 2011112900;        // Requires this Moodle version
-$plugin->component = 'editor_tinymce';  // Full name of the plugin (used for diagnostics)
-$plugin->release   = '3.4.9';
+$plugin->requires  = 2012030900.00;      // Requires this Moodle version
+$plugin->component = 'filter_nanogong'; // Full name of the plugin (used for diagnostics)
