@@ -43,11 +43,11 @@ static $loaded = false;
     }
     
     function is_nanogong_applet_visible() {
-        //return document.getElementById("nanogong_applet_container_for_embed").style.visibility == "visible";
         return $("#nanogong_applet_container_for_embed").css("visibility") == "visible";
     }
     
     function onclick_nanogong_applet(obj, id, url) {
+        obj.parentNode.parentNode.style.overflow = "visible";
         if (current_nanogong_id == id && is_nanogong_applet_visible())
             set_nanogong_visible(false);
         else
@@ -55,7 +55,7 @@ static $loaded = false;
     }
     </script>
         
-    <span id="nanogong_applet_container_for_embed" style="visibility:hidden; position:relative; top:15px">
+    <span id="nanogong_applet_container_for_embed" style="visibility:hidden; position:relative; top:15px;">
         <applet id="embedded_nanogong_player" archive="{$CFG->wwwroot}/filter/nanogong/nanogong.jar" code="gong.NanoGong" width="130px" height="40px">
             <param name="ShowTime" value="true" />
             <param name="ShowAudioLevel" value="false" />
