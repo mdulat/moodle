@@ -114,6 +114,11 @@ class tinymce_texteditor extends texteditor {
         } else {
             $xemoticon = '';
         }
+        if (array_key_exists('filter/nanogong', $filters)) {
+            $xnanogong = 'nanogong,';
+        } else {
+            $xnanogong = '';
+        }
 
         $params = array(
                     'mode' => "exact",
@@ -131,7 +136,7 @@ class tinymce_texteditor extends texteditor {
                     'apply_source_formatting' => true,
                     'remove_script_host' => false,
                     'entity_encoding' => "raw",
-                    'plugins' => "{$xmedia}advimage,safari,table,style,layer,advhr,advlink,emotions,inlinepopups,searchreplace,paste,directionality,fullscreen,moodlenolink,{$xemoticon}{$xdragmath}nanogong,nonbreaking,contextmenu,insertdatetime,save,iespell,preview,print,noneditable,visualchars,xhtmlxtras,template,pagebreak,spellchecker",
+                    'plugins' => "{$xmedia}advimage,safari,table,style,layer,advhr,advlink,emotions,inlinepopups,searchreplace,paste,directionality,fullscreen,moodlenolink,{$xemoticon}{$xdragmath}{$xnanogong}nonbreaking,contextmenu,insertdatetime,save,iespell,preview,print,noneditable,visualchars,xhtmlxtras,template,pagebreak,spellchecker",
                     'theme_advanced_font_sizes' => "1,2,3,4,5,6,7",
                     'theme_advanced_layout_manager' => "SimpleLayout",
                     'theme_advanced_toolbar_align' => "left",
@@ -139,7 +144,7 @@ class tinymce_texteditor extends texteditor {
                     'theme_advanced_buttons1_add' => "|,undo,redo,|,search,replace,|,fullscreen",
                     'theme_advanced_buttons2' => "bold,italic,underline,strikethrough,sub,sup,|,justifyleft,justifycenter,justifyright",
                     'theme_advanced_buttons2_add' => "|,cleanup,removeformat,pastetext,pasteword,|,forecolor,backcolor,|,ltr,rtl",
-                    'theme_advanced_buttons3' => "bullist,numlist,outdent,indent,|,link,unlink,moodlenolink,|,image,{$xemoticon}{$xmedia}{$xdragmath}nanogong,nonbreaking,charmap",
+                    'theme_advanced_buttons3' => "bullist,numlist,outdent,indent,|,link,unlink,moodlenolink,|,image,{$xemoticon}{$xmedia}{$xdragmath}{$xnanogong}nonbreaking,charmap",
                     'theme_advanced_buttons3_add' => "table,|,code,spellchecker",
                     'theme_advanced_fonts' => "Trebuchet=Trebuchet MS,Verdana,Arial,Helvetica,sans-serif;Arial=arial,helvetica,sans-serif;Courier New=courier new,courier,monospace;Georgia=georgia,times new roman,times,serif;Tahoma=tahoma,arial,helvetica,sans-serif;Times New Roman=times new roman,times,serif;Verdana=verdana,arial,helvetica,sans-serif;Impact=impact;Wingdings=wingdings",
                     'theme_advanced_resize_horizontal' => true,
@@ -164,6 +169,20 @@ class tinymce_texteditor extends texteditor {
             $params['moodleemoticon_emoticons'] = json_encode($imgs);
         }
 
+        // add nanogong tag as valid tag if necessary
+/*        if ($xnanogong) {
+            if(empty($params['valid_elements']))
+                $params['valid_elements'] = 'nanogong[caption|url]';
+            else
+                $params['valid_elements'] .= ',nanogong[caption|url]';
+            
+            if(empty($params['valid_child_elements']))
+                $params['valid_child_elements'] = 'nanogong[caption|url]';
+            else
+                $params['valid_child_elements'] .= ',nanogong[caption|url]';
+  
+ }
+*/       
         if (empty($CFG->xmlstrictheaders) and (!empty($options['legacy']) or !empty($options['noclean']) or !empty($options['trusted']))) {
             // now deal somehow with non-standard tags, people scream when we do not make moodle code xtml strict,
             // but they scream even more when we strip all tags that are not strict :-(
