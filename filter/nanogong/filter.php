@@ -102,18 +102,11 @@ function nanogong_filter_callback($nanogong_tag) {
     <script type="text/javascript" src="{$CFG->wwwroot}/filter/nanogong/jquery.js"></script>
     <script type="text/javascript" src="{$CFG->wwwroot}/filter/nanogong/filter.js"></script>
     
-    <span id="nanogong_span_$nanogong_index" style="font-size:7pt; font-weight:bold; text-decoration:none; color:black;" onclick = "javascript: onclick_nanogong_applet('$nanogong_index', '$url')">
+    <span id="nanogong_icon_container_$nanogong_index" style="font-size:7pt; font-weight:bold; text-decoration:none; color:black;" onclick = "javascript: onclick_nanogong_applet('$nanogong_index', '$url')">
+        <input type="hidden" class="nanogong_archive" id="archive_$nanogong_index" value="{$CFG->wwwroot}/filter/nanogong/nanogong.jar" />
         <img id="nanogong_img_$nanogong_index" alt="Show/Hide NanoGong" src="{$CFG->wwwroot}/filter/nanogong/pix/sound.gif" />
         $caption
     </span>
-    
-    <span id="nanogong_applet_container_for_embed_$nanogong_index" style="position:relative; top:15px;">
-        <applet id="embedded_nanogong_player_$nanogong_index" archive="{$CFG->wwwroot}/filter/nanogong/nanogong.jar" code="gong.NanoGong" width="130px" height="40px">
-            <param name="ShowTime" value="true" />
-            <param name="ShowAudioLevel" value="false" />
-            <param name="ShowRecordButton" value="false" />
-        </applet>
-    </span>    
 NANOGONG_SPAN;
 
     $nanogong_index++;
