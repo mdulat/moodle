@@ -65,8 +65,9 @@ NANOGONG_SCRIPT;
                 self::$loaded = true;
             }
             
-            // remove inner html and closing </nanogong> tags
-            $text = preg_replace('/(><img.*>.*<\/nanogong>\s*)+/is', ">", $text);
+            // remove icon placeholder and closing </nanogong> tags
+            $text = preg_replace('/(<img.*alt="nanogong_sound_placeholder" \/>)+/is', "", $text);
+            $text = preg_replace('/(<\/nanogong>\s*)+/is', "", $text);
             
             // concatenate $nanogong_script with filtered text
             //return $nanogong_script.preg_replace_callback($search, 'nanogong_filter_callback', $text);
