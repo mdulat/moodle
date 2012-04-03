@@ -19,6 +19,7 @@ Modified TinyMCE core files:
 moodle/lib/editor/tinymce/lib.php
 moodle/lib/editor/tinymce/module.js
 moodle/lib/editor/tinymce/tiny_mce/{version}/tiny_mce_src.js
+moodle/lib/editor/tinymce/tiny_mce/{version}/tiny_mce.js
 moodle/lib/editor/tinymce/lang/en/editor_tinymce.php
 
 
@@ -82,6 +83,9 @@ moodle/lib/editor/tinymce/module.js
     
 moodle/lib/editor/tinymce/tiny_mce/{version}/tiny_mce_src.js
     add nanogong to defaultWhiteSpaceElementsMap
+    
+moodle/lib/editor/tinymce/tiny_mce/{version}/tiny_mce.js
+    simply needs to be re-compressed after tiny_mce_src.js is modified (http://javascriptcompressor.com/)
     
 moodle/lib/editor/tinymce/lang/en/editor_tinymce.php
     add:
