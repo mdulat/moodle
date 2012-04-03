@@ -15,9 +15,9 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Version details
+ * TinyMCE nanogong plugin version file.
  *
- * @package    filter
+ * @package    tinymce
  * @subpackage nanogong
  * @copyright  2012 Margaret Dulat, Capilano University Educational Technology Resource Centre
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -25,6 +25,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version   = 2012040200;        // The current plugin version (Date: YYYYMMDDXX)
-$plugin->requires  = 2011120502.00;     // Requires this Moodle version
-$plugin->component = 'filter_nanogong'; // Full name of the plugin (used for diagnostics)
+$plugin->version   = 2012040200;          // The current plugin version (Date: YYYYMMDDXX)
+$plugin->requires  = 2011120502.00;       // Requires this Moodle version
+$plugin->component = 'tinymce_nanogong';  // Full name of the plugin (used for diagnostics)
+$plugin->release   = '2.0';

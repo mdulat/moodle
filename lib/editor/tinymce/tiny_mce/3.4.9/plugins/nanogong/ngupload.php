@@ -1,12 +1,10 @@
 <?php
-
 /**
  * This file is part of the Nanogong plugin for TinyMCE editor for Moodle - http://moodle.org/.
  *
- * @package lib-editor
- * @subpackage plugin-nanogong
- * @copyright 2011 Itamar Tzadok (code from Nanogong Dataform Field)
- * @copyright 2011 Margaret Dulat
+ * @package tinymce
+ * @subpackage nanogong
+ * @copyright 2012 Margaret Dulat, Capilano University Educational Technology Resource Centre
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  *
  * Moodle is free software: you can redistribute it and/or modify
@@ -28,10 +26,8 @@ require_once("$CFG->libdir/filelib.php");
 
 $elname = required_param('elname', PARAM_TEXT);
 $itemid = required_param('itemid', PARAM_INT);
-// can't this be used to determine draftitemid with:
-//$draftitemid = file_get_submitted_draft_itemid($itemid);
-// ??
 
+// TO DO later: insert fields for "save as" and "license", like in filepicker
 $saveas_filename = time();
 $maxbytes = -1;
 $usercontext = context_user::instance($USER->id);
@@ -76,9 +72,6 @@ if (empty($saveas_filename)) {
 if (($maxbytes!==-1) && (filesize($_FILES[$elname]['tmp_name']) > $maxbytes)) {
     throw new file_exception('maxbytes');
 }
-
-// clean the file area from any file before creating the new one
-//$fs->delete_area_files($record->contextid, 'user', 'draft', $record->itemid);
 
 if ($stored_file = $fs->create_file_from_pathname($record, $_FILES[$elname]['tmp_name'])) {
     $draftitemid = file_get_submitted_draft_itemid($elname);

@@ -168,21 +168,7 @@ class tinymce_texteditor extends texteditor {
             }
             $params['moodleemoticon_emoticons'] = json_encode($imgs);
         }
-
-        // add nanogong tag as valid tag if necessary
-/*        if ($xnanogong) {
-            if(empty($params['valid_elements']))
-                $params['valid_elements'] = 'nanogong[caption|url]';
-            else
-                $params['valid_elements'] .= ',nanogong[caption|url]';
-            
-            if(empty($params['valid_child_elements']))
-                $params['valid_child_elements'] = 'nanogong[caption|url]';
-            else
-                $params['valid_child_elements'] .= ',nanogong[caption|url]';
-  
- }
-*/       
+       
         if (empty($CFG->xmlstrictheaders) and (!empty($options['legacy']) or !empty($options['noclean']) or !empty($options['trusted']))) {
             // now deal somehow with non-standard tags, people scream when we do not make moodle code xtml strict,
             // but they scream even more when we strip all tags that are not strict :-(
