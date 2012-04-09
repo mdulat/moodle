@@ -80,7 +80,7 @@ function nanogong_filter_callback($nanogong_tag) {
     <script type="text/javascript" src="{$CFG->wwwroot}/filter/nanogong/js/jquery.js"></script>
     <script type="text/javascript" src="{$CFG->wwwroot}/filter/nanogong/js/filter.js"></script>
     
-    <span id="nanogong_icon_container_$nanogong_index" style="font-size:7pt; font-weight:bold; text-decoration:none; color:black;" onclick = "javascript: onclick_nanogong_applet('$nanogong_index', '$url')">
+    <span id="nanogong_icon_container_$nanogong_index" style="font-size:7pt; font-weight:bold; text-decoration:none; color:black; cursor: pointer;" onclick = "javascript: onclick_nanogong_applet('$nanogong_index', '$url')">
         <input type="hidden" class="nanogong_archive" id="archive_$nanogong_index" value="{$CFG->wwwroot}/filter/nanogong/resource/nanogong.jar" />
         <img id="nanogong_img_$nanogong_index" alt="Show/Hide NanoGong" src="{$CFG->wwwroot}/filter/nanogong/pix/sound.gif" />
         $caption
