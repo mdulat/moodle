@@ -118,7 +118,8 @@ class tinymce_texteditor extends texteditor {
             $xnanogong = 'nanogong,';
         } else {
             $xnanogong = '';
-
+        }
+        
         $params = array(
                     'mode' => "exact",
                     'elements' => $elementid,
@@ -186,7 +187,7 @@ class tinymce_texteditor extends texteditor {
         }
         
         // add callback function for nanogong plugin
-        $params['nanogong_callback'] = "M.editor_tinymce.nanogong";
+        $params['nanogong_callback'] = 'M.editor_tinymce.nanogong';
     
         return $params;
     }
