@@ -1503,6 +1503,7 @@ function purify_html($text, $options = array()) {
             $def->addElement('algebra', 'Inline', 'Inline', array());                   // algebra syntax, equivalent to @@xx@@
             $def->addElement('lang', 'Block', 'Flow', array(), array('lang'=>'CDATA')); // old and future style multilang - only our hacked lang attribute
             $def->addAttribute('span', 'xxxlang', 'CDATA');                             // current problematic multilang
+            $def->addElement('nanogong', 'Inline', 'Empty', array(), array('caption'=>'CDATA', 'url'=>'URI'));                                                             // add nanogong element
         }
 
         $purifier = new HTMLPurifier($config);
