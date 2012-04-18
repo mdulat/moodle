@@ -179,15 +179,14 @@ class tinymce_texteditor extends texteditor {
         if (empty($options['legacy'])) {
             if (isset($options['maxfiles']) and $options['maxfiles'] != 0) {
                 $params['file_browser_callback'] = "M.editor_tinymce.filepicker";
+                // add callback function for nanogong plugin
+                $params['nanogong_callback'] = 'M.editor_tinymce.nanogong';
             }
         }
         //Add onblur event for client side text validation
         if (!empty($options['required'])) {
             $params['init_instance_callback'] = 'M.editor_tinymce.onblur_event';
         }
-        
-        // add callback function for nanogong plugin
-        $params['nanogong_callback'] = 'M.editor_tinymce.nanogong';
     
         return $params;
     }
