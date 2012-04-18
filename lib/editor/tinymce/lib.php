@@ -175,12 +175,13 @@ class tinymce_texteditor extends texteditor {
             $params['valid_elements'] = 'script[src|type],*[*]'; // for some reason the *[*] does not inlcude javascript src attribute MDL-25836
             $params['invalid_elements'] = '';
         }
-
+    
         if (empty($options['legacy'])) {
             if (isset($options['maxfiles']) and $options['maxfiles'] != 0) {
                 $params['file_browser_callback'] = "M.editor_tinymce.filepicker";
             }
         }
+        
         //Add onblur event for client side text validation
         if (!empty($options['required'])) {
             $params['init_instance_callback'] = 'M.editor_tinymce.onblur_event';

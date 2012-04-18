@@ -2584,6 +2584,7 @@ class mod_assignment_grading_form extends moodleform {
     protected function get_editor_options() {
         $editoroptions = array();
         $editoroptions['component'] = 'mod_assignment';
+        //$editoroptions['component'] = 'grade';
         $editoroptions['filearea'] = 'feedback';
         $editoroptions['noclean'] = false;
         $editoroptions['maxfiles'] = 0; //TODO: no files for now, we need to first implement assignment_feedback area, integration with gradebook, files support in quickgrading, etc. (skodak)

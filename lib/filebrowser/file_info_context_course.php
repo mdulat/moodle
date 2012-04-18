@@ -80,6 +80,32 @@ class file_info_context_course extends file_info {
         return null;
     }
 
+    protected function get_area_grade_feedback($itemid, $filepath, $filename) {
+        global $CFG;
+
+        if (!has_capability('moodle/grade:edit', $this->context)) {
+            return null;
+        }
+        if (is_null($itemid)) {
+            return $this;
+        }
+
+        $fs = get_file_storage();
+
+        $filepath = is_null($filepath) ? '/' : $filepath;
+        $filename = is_null($filename) ? '.' : $filename;
+        if (!$storedfile = $fs->get_file($this->context->id, 'grade', 'feedback', 0, $filepath, $filename)) {
+            if ($filepath === '/' and $filename === '.') {
+                $storedfile = new virtual_root_file($this->context->id, 'grade', 'feedback', 0);
+            } else {
+                // not found
+                return null;
+            }
+        }
+        $urlbase = $CFG->wwwroot.'/pluginfile.php';
+       return new file_info_stored($this->browser, $this->context, $storedfile, $urlbase, get_string('gradefeedback', 'repository'), false, true, true, false);
+    }
+    
     protected function get_area_course_summary($itemid, $filepath, $filename) {
         global $CFG;
 
@@ -300,6 +326,9 @@ class file_info_context_course extends file_info {
     public function get_children() {
         $children = array();
 
+        if ($child = $this->get_area_grade_feedback(0, '/', '.')) {
+            $children[] = $child;
+        }
         if ($child = $this->get_area_course_summary(0, '/', '.')) {
             $children[] = $child;
         }

@@ -103,6 +103,7 @@ $string['filesaved'] = 'The file has been saved';
 $string['filepicker'] = 'File picker';
 $string['filesizenull'] = 'File size cannot be determined';
 $string['getfile'] = 'Select this file';
+$string['gradefeedback'] = 'Grade feedback';
 $string['hidden'] = 'Hidden';
 $string['choosealink'] = 'Choose a link...';
 $string['chooselicense'] = 'Choose license';
