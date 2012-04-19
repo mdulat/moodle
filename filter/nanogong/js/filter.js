@@ -48,16 +48,44 @@ function init() {
     // if this is the first nanogong, add the applet container and applet
     if(nanogongs.length > 0 && $('#nanogong_applet_container_for_embed').length == 0) {
         var archive = $('.nanogong_archive').first().attr('value');
-        $(nanogongs).first().after('\
-            <span id="nanogong_applet_container_for_embed" style="position:relative; top:15px; display:none">\
-                <applet id="embedded_nanogong_player" archive="' + archive + '" code="gong.NanoGong" width="130px" height="40px">\
-                    <param name="ShowTime" value="true" />\
-                    <param name="ShowAudioLevel" value="false" />\
-                    <param name="ShowRecordButton" value="false" />\
-                </applet>\
-            </span>\
-        ');
+        
+        // check installed JRE versions - must be >= 1.4.2
+        var jres = deployJava.getJREs();
+        var jre_ok = false;
+        var i;
+        for(i = 0; i < jres.length; i++) {
+            if(jres[i] == "1.5.0" || jres[i] == "1.5.0_01" || jres[i] == "1.5.0_02") // incompatible versions
+                continue;
+            if(parseInt(jres[i][0]) > 1) {
+                jre_ok = true;
+                break;
+            }
+            if(parseInt(jres[i][0]) == 1 && parseInt(jres[i][2]) > 4) {
+                jre_ok = true;
+                break;
+            }
+            if(parseInt(jres[i][0]) == 1 && parseInt(jres[i][2]) == 4 && parseInt(jres[i][4]) >= 2) {
+                jre_ok = true;
+                break;
+            }
+        }
 
+        if(jre_ok) {
+            $(nanogongs).first().after('\
+                <span id="nanogong_applet_container_for_embed" style="position:relative; top:15px; display:none">\
+                    <applet id="embedded_nanogong_player" archive="' + archive + '" code="gong.NanoGong" width="130px" height="40px">\
+                        <param name="ShowTime" value="true" />\
+                        <param name="ShowAudioLevel" value="false" />\
+                        <param name="ShowRecordButton" value="false" />\
+                    </applet>\
+                </span>\
+            ');
+        }
+        else { // updated JRE must be installed
+            if(confirm("The NanoGong sound applet on this page will not work with the currently installed Java version. Do you wish to upgrade Java to the newest version now?")) {
+                deployJava.installLatestJRE();
+            }
+        }
     }
 
 }
