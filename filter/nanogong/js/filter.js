@@ -56,15 +56,15 @@ function init() {
         for(i = 0; i < jres.length; i++) {
             if(jres[i] == "1.5.0" || jres[i] == "1.5.0_01" || jres[i] == "1.5.0_02") // incompatible versions
                 continue;
-            if(parseInt(jres[i][0]) > 1) {
+            if(parseInt(jres[i].charAt(0)) > 1) {
                 jre_ok = true;
                 break;
             }
-            if(parseInt(jres[i][0]) == 1 && parseInt(jres[i][2]) > 4) {
+            if(parseInt(jres[i].charAt(0)) == 1 && parseInt(jres[i].charAt(2)) > 4) {
                 jre_ok = true;
                 break;
             }
-            if(parseInt(jres[i][0]) == 1 && parseInt(jres[i][2]) == 4 && parseInt(jres[i][4]) >= 2) {
+            if(parseInt(jres[i].charAt(0)) == 1 && parseInt(jres[i].charAt(2)) == 4 && parseInt(jres[i].charAt(4)) >= 2) {
                 jre_ok = true;
                 break;
             }
@@ -73,7 +73,7 @@ function init() {
         if(jre_ok) {
             $(nanogongs).first().after('\
                 <span id="nanogong_applet_container_for_embed" style="position:relative; top:15px; display:none">\
-                    <applet id="embedded_nanogong_player" archive="' + archive + '" code="gong.NanoGong" width="130px" height="40px">\
+                    <applet id="embedded_nanogong_player" archive="nanogong.jar" codebase="' + archive + '" code="gong.NanoGong" width="130px" height="40px">\
                         <param name="ShowTime" value="true" />\
                         <param name="ShowAudioLevel" value="false" />\
                         <param name="ShowRecordButton" value="false" />\
@@ -110,7 +110,9 @@ function show_nanogong_applet(id, url) {
     $('#nanogong_applet_container_for_embed').insertAfter("#nanogong_icon_container_"+id);
     current_loaded = id;
     
-    $('#nanogong_applet_container_for_embed').show();
+    if($('#nanogong_applet_container_for_embed').is(':hidden'))
+        $('#nanogong_applet_container_for_embed').show();
+        
     document.getElementById("embedded_nanogong_player").sendGongRequest("LoadFromURL", url);
 }
 
