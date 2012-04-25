@@ -145,6 +145,7 @@ class repository_local extends repository {
             $list = array();
         }
         $ret['list'] = array_filter($list, array($this, 'filter'));
+        sort($ret['list']);
         return $ret;
     }
 
