@@ -489,6 +489,7 @@ class grade_report_user extends grade_report {
                         $data['feedback']['class'] = $classfeedback.' feedbacktext';
                         $data['feedback']['content'] = format_text($grade_grade->feedback, $grade_grade->feedbackformat);
                     }
+                    $data['feedback']['content'] = file_rewrite_pluginfile_urls($data['feedback']['content'], 'pluginfile.php', $this->context->id, 'grade', 'feedback', $eid);
                 }
             }
         }

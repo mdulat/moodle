@@ -148,8 +148,11 @@ if ($grade = $DB->get_record('grade_grades', array('itemid' => $grade_item->id, 
 
     $grade->oldgrade    = $grade->finalgrade;
     $grade->oldfeedback = $grade->feedback;
-
-    $grade->feedback = array('text'=>$grade->feedback, 'format'=>$grade->feedbackformat);
+    
+    // file handling
+    $feedbackoptions = array('trusttext'=>true, 'maxfiles'=>EDITOR_UNLIMITED_FILES, 'maxbytes'=>$COURSE->maxbytes, 'context'=>$context, 'component'=>'grade', 'filearea'=>'feedback');
+    
+    $grade = file_prepare_standard_editor($grade, 'feedback', $feedbackoptions, $context, 'grade', 'feedback', $grade_item->id);
 
     $mform->set_data($grade);
 } else {
@@ -162,11 +165,16 @@ if ($mform->is_cancelled()) {
 
 // form processing
 } else if ($data = $mform->get_data(false)) {
+    $data->feedbackformat = $data->feedback_editor['format'];
+    $data->feedback = $data->feedback_editor['text'];
+    $data->itemid = $data->feedback_editor['itemid'];
 
-    if (is_array($data->feedback)) {
-        $data->feedbackformat = $data->feedback['format'];
-        $data->feedback = $data->feedback['text'];
-    }
+    // file handling
+    $feedbackoptions = array('trusttext'=>true, 'maxfiles'=>EDITOR_UNLIMITED_FILES, 'maxbytes'=>$COURSE->maxbytes, 'context'=>$context, 'component'=>'grade', 'filearea'=>'feedback');
+    
+    $data = file_postupdate_standard_editor($data, 'feedback', $feedbackoptions, $context, 'grade', 'feedback', $data->itemid);
+
+    $data->feedback = file_rewrite_pluginfile_urls($data->feedback, 'pluginfile.php', $context->id, 'grade', 'feedback', $data->itemid);
 
     $old_grade_grade = new grade_grade(array('userid'=>$data->userid, 'itemid'=>$grade_item->id), true); //might not exist yet
 
@@ -192,9 +200,10 @@ if ($mform->is_cancelled()) {
         $data->feedback       = $old_grade_grade->feedback;
         $data->feedbackformat = $old_grade_grade->feedbackformat;
     }
+                                          
     // update final grade or feedback
     $grade_item->update_final_grade($data->userid, $data->finalgrade, 'editgrade', $data->feedback, $data->feedbackformat);
-
+                                          
     $grade_grade = new grade_grade(array('userid'=>$data->userid, 'itemid'=>$grade_item->id), true);
     $grade_grade->grade_item =& $grade_item; // no db fetching
 

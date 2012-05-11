@@ -3258,9 +3258,7 @@ function file_pluginfile($relativepath, $forcedownload) {
             send_stored_file($file, 60*60, 0, $forcedownload);
 
         } else if ($filearea === 'feedback' and $context->contextlevel == CONTEXT_COURSE) {
-            //TODO: nobody implemented this yet in grade edit form!!
-            send_file_not_found();
-
+            
             if ($CFG->forcelogin || $course->id != SITEID) {
                 require_login($course);
             }
