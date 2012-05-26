@@ -342,7 +342,9 @@ class assignment_base {
         echo '<div class="clearer"></div>';
 
         echo '<div class="comment">';
-        echo $grade->str_feedback;
+        
+        echo $submission->submissioncomment;
+
         echo '</div>';
         echo '</tr>';
 
@@ -1735,6 +1737,16 @@ class assignment_base {
 
             $submission->grade      = $feedback->xgrade;
             $submission->submissioncomment    = $feedback->submissioncomment_editor['text'];
+            $submission->itemid = $feedback->submissioncomment_editor['itemid'];
+            // file handling
+            $submission->submissioncomment_editor = $feedback->submissioncomment_editor;
+            $context = get_context_instance(CONTEXT_COURSE, $this->course->id);
+            $feedbackoptions = array('trusttext'=>true, 'maxfiles'=>EDITOR_UNLIMITED_FILES, 'maxbytes'=>$this->course->maxbytes, 'context'=>$context, 'component'=>'grade', 'filearea'=>'feedback');
+
+            $submission = file_postupdate_standard_editor($submission, 'submissioncomment', $feedbackoptions, $context, 'grade', 'feedback', $submission->itemid);
+
+            $submission->submissioncomment = file_rewrite_pluginfile_urls($submission->submissioncomment, 'pluginfile.php', $context->id, 'grade', 'feedback', $submission->itemid);
+    
             $submission->teacher    = $USER->id;
             $mailinfo = get_user_preferences('assignment_mailinfo', 0);
             if (!$mailinfo) {
@@ -2534,7 +2546,6 @@ class mod_assignment_grading_form extends moodleform {
             $mform->addElement('static', 'disabledfeedback', $this->_customdata->grading_info->items[0]->grades[$this->_customdata->userid]->str_feedback );
         } else {
             // visible elements
-
             $mform->addElement('editor', 'submissioncomment_editor', get_string('feedback', 'assignment').':', null, $this->get_editor_options() );
             $mform->setType('submissioncomment_editor', PARAM_RAW); // to be cleaned before display
             $mform->setDefault('submissioncomment_editor', $this->_customdata->submission->submissioncomment);
@@ -2583,11 +2594,10 @@ class mod_assignment_grading_form extends moodleform {
 
     protected function get_editor_options() {
         $editoroptions = array();
-        $editoroptions['component'] = 'mod_assignment';
-        //$editoroptions['component'] = 'grade';
+        $editoroptions['component'] = 'grade';
         $editoroptions['filearea'] = 'feedback';
         $editoroptions['noclean'] = false;
-        $editoroptions['maxfiles'] = 0; //TODO: no files for now, we need to first implement assignment_feedback area, integration with gradebook, files support in quickgrading, etc. (skodak)
+        $editoroptions['maxfiles'] = EDITOR_UNLIMITED_FILES;
         $editoroptions['maxbytes'] = $this->_customdata->maxbytes;
         $editoroptions['context'] = $this->_customdata->context;
         return $editoroptions;
@@ -2642,6 +2652,7 @@ class mod_assignment_grading_form extends moodleform {
                 default :
                     break;
             }
+
             $data = file_postupdate_standard_editor($data, 'submissioncomment', $editoroptions, $this->_customdata->context, $editoroptions['component'], $editoroptions['filearea'], $itemid);
         }
 
